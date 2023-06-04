@@ -1,0 +1,70 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Scripts/OrbitCalculator.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/FlyghtControl.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/Blufor.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/explosion_halfsized.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Exhaust.png" type="Texture" id=5]
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.0794702, 0.783784, 1 )
+colors = PoolColorArray( 0.145098, 0.231373, 0.658824, 0, 0.4, 0.501961, 1, 0.533333, 0.423038, 0.511808, 0.969308, 0.577031, 0.403922, 0.501961, 0.996078, 0 )
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.192661, 0.825688, 1 )
+colors = PoolColorArray( 0.956863, 0.654902, 0.0823529, 0, 0.968342, 0.746736, 0.326548, 0.53226, 0.971332, 0.770659, 0.39016, 0.670913, 0.980392, 0.835294, 0.560784, 0 )
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 2.91266
+
+[node name="ShipBody" type="KinematicBody2D"]
+position = Vector2( 767, 517 )
+script = ExtResource( 2 )
+what_to_hide_after_death = [ "./Ship" ]
+death_explosion_spritesheet_path = "./Explosion"
+torque = 5.0
+acceleration = 5.0
+reload_time = 5.0
+muzzle_distance = 25.0
+muzzle_speed = 0.0
+
+[node name="TrajectoryPredictonMarx" type="Line2D" parent="."]
+width = 2.0
+default_color = Color( 0.956863, 0.654902, 0.0823529, 0.509804 )
+gradient = SubResource( 4 )
+antialiased = true
+
+[node name="TrajectoryMarx" type="Line2D" parent="."]
+width = 2.0
+default_color = Color( 0.4, 0.501961, 1, 0.533333 )
+gradient = SubResource( 3 )
+
+[node name="Explosion" type="Sprite" parent="."]
+scale = Vector2( 0.0937501, 0.0937497 )
+texture = ExtResource( 4 )
+hframes = 8
+vframes = 8
+
+[node name="Ship" type="Sprite" parent="."]
+scale = Vector2( 0.0937501, 0.0937497 )
+texture = ExtResource( 3 )
+
+[node name="Exhaust" type="Sprite" parent="."]
+scale = Vector2( 0.0937501, 0.0937497 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 1.03, 0.939 )
+shape = SubResource( 5 )
+
+[node name="VisTimer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.1
+autostart = true
+
+[node name="OrbitCalculator" type="Node2D" parent="."]
+script = ExtResource( 1 )
+points_quantity = 512
+time_interval = 0.1
+calculation_per_point = 5
+acceleration_filter_coef = 0.327

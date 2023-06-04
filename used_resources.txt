@@ -1,0 +1,1 @@
+Sprites/explosion_halfsized.png: https://opengameart.org/content/2d-explosion-animations-frame-by-frame file "explosion 3.png"
