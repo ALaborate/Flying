@@ -1,8 +1,6 @@
-extends MassiveDestroyable
+extends Controllable
 class_name FlyghtControl
 
-export(float) var torque = PI # radians per second^2
-export(float) var acceleration = 1
 export(String) var path_to_marks_line = "./TrajectoryMarx"
 export(int) var trajectory_mark_count = 256
 
@@ -15,8 +13,6 @@ export(float) var attack_blade_no_effect_threshold = 0.8
 
 
 # Called when the node enters the scene tree for the first time.
-var rb: MassiveObject
-var target_rotation := NAN
 var line: Line2D
 var trajectory_mark_points := []
 
@@ -29,19 +25,10 @@ var action_up := "up"
 
 func _ready():
 	var timer = get_node("VisTimer")
-	rb = $'.'
 	timer.connect("timeout", self, "_on_VisTimer_timeout")
 	line = get_node_or_null(path_to_marks_line)
 	._ready()
 	pass  # Replace with function body.
-
-func _angle_minusPi_to_Pie(angle_rad: float) -> float:
-	return wrapf(angle_rad, -PI, PI)
-	while angle_rad<-PI:
-		angle_rad+=2*PI
-	while angle_rad>PI:
-		angle_rad-=2*PI
-	return angle_rad
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -50,7 +37,7 @@ func _process(delta):
 	if (global_position - get_viewport_rect().size).length() > get_viewport_rect().size.length()*2:
 		_take_damage(Vector2.ONE / DAMAGE_PER_SPEED, 1, get_instance_id())
 	
-	target_rotation = Vector2.DOWN.angle_to(rb.linear_velocity)
+	target_rotation = Vector2.DOWN.angle_to(linear_velocity)
 	if Input.is_action_pressed(action_right):
 		target_rotation += PI/2
 	if Input.is_action_pressed(action_left):
@@ -58,6 +45,10 @@ func _process(delta):
 	if Input.is_action_pressed(action_down):
 		target_rotation += PI
 	target_rotation = fmod(target_rotation, 2*PI)
+	
+	if Input.is_action_pressed(action_up):
+		target_acceleration = 1
+	else: target_acceleration = 0
 	
 	if Input.is_action_pressed(action_left) and Input.is_action_pressed(action_right):
 		var ct := Time.get_unix_time_from_system()
@@ -92,23 +83,6 @@ func get_net_acceleration()->Vector2:
 		$"./Exhaust".visible = false
 	return net
 	
-		
-func _physics_process(delta):
-	var local_target_coord := _angle_minusPi_to_Pie(target_rotation - get_rotation())
-		
-	var expected_stop_time = abs(rb.angular_velocity) / torque
-	var expected_stop_coord = _angle_minusPi_to_Pie(rb.angular_velocity*expected_stop_time+torque*sign(-rb.angular_velocity)*expected_stop_time*expected_stop_time/2)
-	if abs(local_target_coord)<(torque*delta*1.3):
-		rb.rotation = target_rotation
-		rb.angular_velocity = 0
-		pass # stop
-	elif expected_stop_coord > PI or local_target_coord - expected_stop_coord < 0:
-		rb.angular_velocity = rb.angular_velocity - torque*delta
-		pass # decrease angular velocity
-	elif expected_stop_coord < -PI or local_target_coord - expected_stop_coord > 0:
-		rb.angular_velocity = rb.angular_velocity + torque*delta
-		
-	._physics_process(delta)
 
 func on_colision_callback(colision_test: KinematicCollision2D):
 	var params := ._calculate_basic_damage_parameters(global_position, linear_velocity, colision_test)

@@ -27,6 +27,15 @@ static func calculate_acceleration_magnitude(mo: MassiveObject, global_position:
 	acceleration /= km_per_px
 	return acceleration
 
+static func angle_minusPi_to_Pie(angle_rad: float) -> float:
+	return wrapf(angle_rad, -PI, PI)
+#	while angle_rad<-PI:
+#		angle_rad+=2*PI
+#	while angle_rad>PI:
+#		angle_rad-=2*PI
+#	return angle_rad
+
+
 func get_net_acceleration() -> Vector2:
 	var net: Vector2 = Vector2.ZERO
 	for _n in get_tree().get_nodes_in_group(GROUP_NAME):
