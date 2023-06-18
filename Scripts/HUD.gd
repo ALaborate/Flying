@@ -14,5 +14,16 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	$"BluforHealth".value = parent.blufor_ship.health if is_instance_valid(parent.blufor_ship) else 0
-	$"OpforHealth".value = parent.opfor_ship.health if is_instance_valid(parent.opfor_ship) else 0
+	if is_instance_valid(parent.blufor_ship):
+		$"Blufor/Health".value = parent.blufor_ship.health
+		$"Blufor/Fuel".value = parent.blufor_ship.c_fuel_mass_kg / parent.blufor_ship.c_fuel_mass_max_kg
+	else:
+		$"Blufor/Health".value = 0
+		$"Blufor/Fuel".value = 0
+		
+	if is_instance_valid(parent.opfor_ship):
+		$"Opfor/Health".value = parent.opfor_ship.health
+		$"Opfor/Fuel".value = parent.opfor_ship.c_fuel_mass_kg / parent.opfor_ship.c_fuel_mass_max_kg
+	else:
+		$"Opfor/Health".value = 0
+		$"Opfor/Fuel".value = 0

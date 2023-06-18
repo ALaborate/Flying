@@ -60,8 +60,64 @@ script = ExtResource( 8 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource( 13 )
 
-[node name="BluforHealth" type="TextureProgress" parent="CanvasLayer"]
-anchor_right = 0.021
+[node name="Opfor" type="Control" parent="CanvasLayer"]
+anchor_left = 0.97
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Health" type="TextureProgress" parent="CanvasLayer/Opfor"]
+anchor_left = 0.15
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 1.0
+step = 0.01
+value = 0.66
+texture_under = ExtResource( 12 )
+texture_over = ExtResource( 12 )
+texture_progress = ExtResource( 12 )
+fill_mode = 3
+tint_under = Color( 0.12549, 0.12549, 0.12549, 1 )
+tint_over = Color( 0.258824, 0.258824, 0.258824, 0 )
+tint_progress = Color( 0.941176, 0.635294, 0.054902, 1 )
+nine_patch_stretch = true
+
+[node name="Fuel" type="TextureProgress" parent="CanvasLayer/Opfor"]
+anchor_right = 0.15
+anchor_bottom = 1.0
+max_value = 1.0
+step = 0.01
+value = 0.66
+texture_under = ExtResource( 12 )
+texture_over = ExtResource( 12 )
+texture_progress = ExtResource( 12 )
+fill_mode = 3
+tint_under = Color( 0.12549, 0.12549, 0.12549, 1 )
+tint_over = Color( 0.258824, 0.258824, 0.258824, 0 )
+tint_progress = Color( 0.905882, 0.905882, 0.905882, 1 )
+nine_patch_stretch = true
+
+[node name="Blufor" type="Control" parent="CanvasLayer"]
+anchor_right = 0.03
+anchor_bottom = 1.0
+
+[node name="Fuel" type="TextureProgress" parent="CanvasLayer/Blufor"]
+anchor_left = 0.85
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 1.0
+step = 0.01
+value = 0.66
+texture_under = ExtResource( 12 )
+texture_over = ExtResource( 12 )
+texture_progress = ExtResource( 12 )
+fill_mode = 3
+tint_under = Color( 0.12549, 0.12549, 0.12549, 1 )
+tint_over = Color( 0.258824, 0.258824, 0.258824, 0 )
+tint_progress = Color( 0.905882, 0.905882, 0.905882, 1 )
+nine_patch_stretch = true
+
+[node name="Health" type="TextureProgress" parent="CanvasLayer/Blufor"]
+anchor_right = 0.85
 anchor_bottom = 1.0
 max_value = 1.0
 step = 0.01
@@ -73,20 +129,4 @@ fill_mode = 3
 tint_under = Color( 0.12549, 0.12549, 0.12549, 1 )
 tint_over = Color( 0.258824, 0.258824, 0.258824, 0 )
 tint_progress = Color( 0.054902, 0.129412, 0.941176, 1 )
-nine_patch_stretch = true
-
-[node name="OpforHealth" type="TextureProgress" parent="CanvasLayer"]
-anchor_left = 0.979
-anchor_right = 1.0
-anchor_bottom = 1.0
-max_value = 1.0
-step = 0.01
-value = 0.62
-texture_under = ExtResource( 12 )
-texture_over = ExtResource( 12 )
-texture_progress = ExtResource( 12 )
-fill_mode = 3
-tint_under = Color( 0.12549, 0.12549, 0.12549, 1 )
-tint_over = Color( 0.258824, 0.258824, 0.258824, 0 )
-tint_progress = Color( 0.941176, 0.635294, 0.054902, 1 )
 nine_patch_stretch = true

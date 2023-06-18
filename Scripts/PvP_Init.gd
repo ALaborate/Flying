@@ -36,8 +36,13 @@ var opfor_ship: FlyghtControl = null
 func _ready():
 	if not is_instance_valid(opfor_ship):
 		opfor_ship = _instantiate_ship(opfor_texture, opfor_action_prefix)
+	else:
+		opfor_ship.c_fuel_mass_kg = opfor_ship.c_fuel_mass_max_kg
 	if not is_instance_valid(blufor_ship):
 		blufor_ship = _instantiate_ship(blufor_texture, blufor_action_prefix)
+	else:
+		blufor_ship.c_fuel_mass_kg = blufor_ship.c_fuel_mass_max_kg
+		
 	pass # Replace with function body.
 
 

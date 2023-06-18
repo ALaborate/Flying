@@ -47,8 +47,8 @@ func _process(delta):
 	target_rotation = fmod(target_rotation, 2*PI)
 	
 	if Input.is_action_pressed(action_up):
-		target_acceleration = 1
-	else: target_acceleration = 0
+		_c_throttle = 1
+	else: _c_throttle = 0
 	
 	if Input.is_action_pressed(action_left) and Input.is_action_pressed(action_right):
 		var ct := Time.get_unix_time_from_system()
@@ -73,15 +73,6 @@ func _process(delta):
 		for i in range(len(trajectory_mark_points)):
 			globalizet_tmp.append((trajectory_mark_points[i] - global_position).rotated(-global_rotation))
 		line.points = globalizet_tmp
-
-func get_net_acceleration()->Vector2:
-	var net := .get_net_acceleration()
-	if Input.is_action_pressed(action_up):
-		net = net + Vector2.DOWN.rotated(global_rotation) * acceleration
-		$"./Exhaust".visible = true
-	else:
-		$"./Exhaust".visible = false
-	return net
 	
 
 func on_colision_callback(colision_test: KinematicCollision2D):
